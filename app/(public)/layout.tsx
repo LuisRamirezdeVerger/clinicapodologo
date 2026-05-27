@@ -1,11 +1,9 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import PublicNav from "@/components/ui/public-nav";
+import ScrollToTop from "@/components/ui/scroll-to-top";
 
-/**
- * Enlaces principales del Navbar y del Footer.
- * Centralizados como única fuente de verdad (DRY).
- */
-const NAV_LINKS = [
+const FOOTER_LINKS = [
   { href: "/#servicios", label: "Servicios" },
   { href: "/#equipo", label: "Equipo" },
   { href: "/#instalaciones", label: "Instalaciones" },
@@ -15,46 +13,22 @@ const NAV_LINKS = [
 export default function PublicLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-[100dvh] w-full max-w-[100vw] flex-col overflow-x-hidden bg-background text-foreground">
-      {/* ──────────────── HEADER ──────────────── */}
-      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md">
-        <nav
-          aria-label="Navegación principal"
-          className="mx-auto flex w-full max-w-[80rem] flex-wrap items-center justify-between gap-[clamp(0.5rem,2vw,1.5rem)] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(0.75rem,2dvh,1.25rem)]"
-        >
-          <Link
-            href="/"
-            aria-label="Ir a la página principal"
-            className="text-[clamp(1.125rem,2.5vw,1.5rem)] font-bold tracking-tight transition-opacity hover:opacity-80 active:scale-[0.98] active:opacity-70"
-          >
-            Clínica Podología
-          </Link>
-
-          <ul className="hidden items-center gap-[clamp(1rem,3vw,2.5rem)] md:flex">
-            {NAV_LINKS.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="text-[clamp(0.875rem,1.5vw,1rem)] font-medium text-muted-foreground transition-colors hover:text-foreground active:scale-[0.98] active:opacity-70"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          <Link
-            href="/reserva"
-            className="inline-flex items-center justify-center rounded-full bg-primary px-[clamp(1rem,2.5vw,1.75rem)] py-[clamp(0.5rem,1.5dvh,0.75rem)] text-[clamp(0.8125rem,1.5vw,0.9375rem)] font-semibold text-primary-foreground shadow-sm transition-all hover:shadow-md active:scale-[0.97] active:opacity-90"
-          >
-            Reservar cita
-          </Link>
-        </nav>
+      {/* ─────────── HEADER ───────────
+          El posicionamiento (fixed) y los estilos visuales viven dentro de
+          <PublicNav />. El <header> aquí es puramente semántico (landmark
+          para lectores de pantalla y SEO), sin clases de layout. */}
+      <header>
+        <PublicNav />
       </header>
 
-      {/* ──────────────── MAIN ──────────────── */}
-      <main className="flex-1 w-full">{children}</main>
+      {/* ─────────── MAIN ───────────
+          pt-[clamp(...)] compensa la altura del navbar fixed para evitar
+          que el contenido quede oculto bajo la barra superior. */}
+      <main className="w-full flex-1 pt-[clamp(3.5rem,9dvh,5rem)]">
+        {children}
+      </main>
 
-      {/* ──────────────── FOOTER ──────────────── */}
+      {/* ─────────── FOOTER ─────────── */}
       <footer className="w-full border-t border-border/40 bg-muted/30">
         <div className="mx-auto grid w-full max-w-[80rem] grid-cols-1 gap-[clamp(1.5rem,4dvh,2.5rem)] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(2rem,5dvh,3.5rem)] sm:grid-cols-2 lg:grid-cols-4">
           <section aria-labelledby="footer-brand">
@@ -77,7 +51,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
               Navegación
             </h2>
             <ul className="mt-[clamp(0.75rem,2dvh,1rem)] flex flex-col gap-[clamp(0.375rem,1dvh,0.5rem)]">
-              {NAV_LINKS.map((link) => (
+              {FOOTER_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -145,7 +119,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
         </div>
       </footer>
 
-      {/* ──────────────── BOTTOM BAR · CRÉDITOS ──────────────── */}
+      {/* ─────────── BOTTOM BAR · CRÉDITOS ─────────── */}
       <aside
         aria-label="Créditos de desarrollo"
         className="w-full border-t border-border/40 bg-background"
@@ -162,6 +136,9 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
           </a>
         </p>
       </aside>
+
+      {/* ─────────── FAB · SCROLL TO TOP ─────────── */}
+      <ScrollToTop />
     </div>
   );
 }
