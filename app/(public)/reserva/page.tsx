@@ -2,47 +2,9 @@
 
 import Link from "next/link";
 import { useId, useMemo, useState, type FormEvent } from "react";
+import { SERVICES } from "@/lib/data/services";
 
-/* ────────────────────────── MOCKS ────────────────────────── */
-
-type Service = {
-  id: string;
-  name: string;
-  description: string;
-  durationMinutes: number;
-  priceCents: number;
-};
-
-const SERVICES: readonly Service[] = [
-  {
-    id: "quiropodia",
-    name: "Quiropodia",
-    description: "Tratamiento integral de uñas, durezas y callosidades.",
-    durationMinutes: 45,
-    priceCents: 3500,
-  },
-  {
-    id: "biomecanica",
-    name: "Estudio Biomecánico",
-    description: "Análisis de la pisada y plantillas personalizadas.",
-    durationMinutes: 60,
-    priceCents: 8000,
-  },
-  {
-    id: "infantil",
-    name: "Podología Infantil",
-    description: "Prevención y corrección en pies en crecimiento.",
-    durationMinutes: 40,
-    priceCents: 4500,
-  },
-  {
-    id: "cirugia",
-    name: "Cirugía Ungueal",
-    description: "Solución definitiva a uñas encarnadas.",
-    durationMinutes: 60,
-    priceCents: 18000,
-  },
-] as const;
+/* ────────────────────────── MOCKS DE AGENDA ────────────────────────── */
 
 const AVAILABLE_DAYS: readonly { value: string; label: string }[] = [
   { value: "2026-06-01", label: "Lun 1 Junio" },
@@ -61,12 +23,6 @@ const AVAILABLE_SLOTS: readonly string[] = [
   "18:00",
   "19:30",
 ] as const;
-
-const priceFormatter = new Intl.NumberFormat("es-ES", {
-  style: "currency",
-  currency: "EUR",
-  minimumFractionDigits: 2,
-});
 
 /* ────────────────────────── ESTADO ────────────────────────── */
 
@@ -167,7 +123,7 @@ export default function ReservaPage() {
             <div className="flex flex-wrap justify-between gap-[0.5rem] py-[0.375rem]">
               <dt className="text-muted-foreground">Importe</dt>
               <dd className="font-semibold text-primary">
-                {priceFormatter.format(selectedService.priceCents / 100)}
+                {selectedService.price}
               </dd>
             </div>
           )}
@@ -240,15 +196,12 @@ export default function ReservaPage() {
                       <span className="text-[clamp(1rem,1.7vw,1.125rem)] font-semibold break-words">
                         {service.name}
                       </span>
-                      <span className="text-[clamp(0.875rem,1.5vw,1rem)] font-bold text-primary">
-                        {priceFormatter.format(service.priceCents / 100)}
+                      <span className="text-[clamp(0.875rem,1.5vw,1rem)] font-bold text-primary whitespace-nowrap">
+                        {service.price}
                       </span>
                     </span>
                     <span className="text-[clamp(0.8125rem,1.4vw,0.9375rem)] leading-relaxed text-muted-foreground break-words">
                       {service.description}
-                    </span>
-                    <span className="text-[clamp(0.75rem,1.3vw,0.8125rem)] text-muted-foreground">
-                      Duración aprox. {service.durationMinutes} min
                     </span>
                   </label>
                 </li>

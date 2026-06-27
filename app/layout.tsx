@@ -47,7 +47,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="es" className={inter.variable}>
+    <html lang="es" data-scroll-behavior="smooth" className={inter.variable}>
       <body className="font-sans antialiased">{children}</body>
     </html>
   );
