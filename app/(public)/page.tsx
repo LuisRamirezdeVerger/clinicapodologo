@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SERVICES } from "@/lib/data/services";
+import ReviewsCarousel from "@/components/ui/reviews-carousel";
 
 /* ─────────────────────────────────────────────
    DATOS DE PRESENTACIÓN (no replicados)
@@ -10,39 +11,6 @@ const SPECIALTIES = [
   "Metatarsalgia",
   "Pie cavo",
   "Pie de atleta",
-] as const;
-
-type Testimonial = {
-  id: string;
-  quote: string;
-  source: string;
-};
-
-const TESTIMONIALS: readonly Testimonial[] = [
-  {
-    id: "t1",
-    quote:
-      "Un profesional excelente y un trato muy agradable. En todas las consultas he quedado muy satisfecha.",
-    source: "Paciente verificada · Doctoralia",
-  },
-  {
-    id: "t2",
-    quote:
-      "Es un gran profesional que realiza con esmero su trabajo… un trato muy cordial.",
-    source: "Paciente verificado · Doctoralia",
-  },
-  {
-    id: "t3",
-    quote:
-      "Iba con miedo de que me doliera, pero fue muy cuidadoso, enseguida se me pasó el miedo.",
-    source: "Paciente verificada · Doctoralia",
-  },
-  {
-    id: "t4",
-    quote:
-      "Persona encantadora, puntual, resolutivo y con todas las cualidades de un excelente profesional.",
-    source: "Paciente verificado · Doctoralia",
-  },
 ] as const;
 
 /* ─────────────────────────────────────────────
@@ -183,14 +151,43 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─────── TESTIMONIOS ─────── */}
+      {/* ─────── SOBRE MÍ (Ángel) ─────── */}
+      <section
+        id="sobre-mi"
+        aria-labelledby="about-me-title"
+        className="w-full scroll-mt-[5rem]"
+      >
+        <div className="mx-auto flex w-full max-w-[60rem] flex-col gap-[clamp(1rem,3dvh,1.75rem)] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(3rem,8dvh,6rem)]">
+          <header className="flex flex-col gap-[clamp(0.5rem,1.5dvh,0.75rem)] text-center">
+            <span className="text-[clamp(0.75rem,1.3vw,0.875rem)] font-semibold uppercase tracking-wider text-primary">
+              Conoce a tu podólogo
+            </span>
+            <h2
+              id="about-me-title"
+              className="text-[clamp(1.75rem,4vw,3rem)] font-bold tracking-tight hyphens-auto break-words"
+            >
+              Sobre mí
+            </h2>
+          </header>
+          <article className="flex flex-col gap-[clamp(0.875rem,2dvh,1.25rem)] rounded-3xl border border-border bg-card p-[clamp(1.5rem,4vw,2.5rem)]">
+            <p className="text-[clamp(0.9375rem,1.7vw,1.125rem)] leading-relaxed text-foreground break-words">
+              Mi nombre es Ángel, la dedicación a la salud siempre ha sido mi vocación, ha sido a raíz de la podología cuando he podido realizarme y ayudar a la gente en problemas mas concretos.
+            </p>
+            <p className="text-[clamp(0.9375rem,1.7vw,1.125rem)] leading-relaxed text-muted-foreground break-words">
+              ¿Qué puedo hacer por usted? Ofrecerle los tratamientos propios de la podología, aplicando un amplio conocimiento en las ramas de la anatomía humana, fisiología, patofisiología, biomecánica del miembro inferior, radiología, farmacología, medicina general y cirugía.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      {/* ─────── TESTIMONIOS (carrusel) ─────── */}
       <section
         id="testimonios"
         aria-labelledby="testimonials-title"
-        className="w-full scroll-mt-[5rem]"
+        className="w-full scroll-mt-[5rem] bg-muted/30"
       >
-        <div className="mx-auto w-full max-w-[80rem] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(3rem,8dvh,6rem)]">
-          <header className="mx-auto flex max-w-[50rem] flex-col items-center gap-[clamp(0.75rem,2dvh,1rem)] text-center">
+        <div className="mx-auto w-full max-w-[80rem] py-[clamp(3rem,8dvh,6rem)]">
+          <header className="mx-auto flex max-w-[50rem] flex-col items-center gap-[clamp(0.75rem,2dvh,1rem)] px-[clamp(1rem,5vw,2.5rem)] text-center">
             <span className="text-[clamp(0.75rem,1.3vw,0.875rem)] font-semibold uppercase tracking-wider text-primary">
               Reseñas verificadas
             </span>
@@ -202,28 +199,9 @@ export default function HomePage() {
             </h2>
           </header>
 
-          <ul className="mt-[clamp(2rem,5dvh,3.5rem)] grid grid-cols-1 gap-[clamp(0.875rem,2.5vw,1.5rem)] md:grid-cols-2">
-            {TESTIMONIALS.map((t) => (
-              <li key={t.id}>
-                <figure className="flex h-full flex-col gap-[clamp(0.75rem,2dvh,1rem)] rounded-2xl border border-border bg-card p-[clamp(1.25rem,3vw,1.75rem)] transition-all hover:-translate-y-[0.25rem] hover:shadow-lg">
-                  <svg
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                    className="h-[clamp(1.25rem,2.5vw,1.75rem)] w-[clamp(1.25rem,2.5vw,1.75rem)] text-primary/60"
-                    fill="currentColor"
-                  >
-                    <path d="M7 7h4v4H8c0 2.2 1.8 4 4 4v2c-3.3 0-6-2.7-6-6V7zm9 0h4v4h-3c0 2.2 1.8 4 4 4v2c-3.3 0-6-2.7-6-6V7z" />
-                  </svg>
-                  <blockquote className="text-[clamp(0.9375rem,1.6vw,1.0625rem)] leading-relaxed text-foreground break-words">
-                    “{t.quote}”
-                  </blockquote>
-                  <figcaption className="mt-auto text-[clamp(0.75rem,1.3vw,0.875rem)] text-muted-foreground">
-                    {t.source}
-                  </figcaption>
-                </figure>
-              </li>
-            ))}
-          </ul>
+          <div className="mt-[clamp(1.5rem,4dvh,2.5rem)]">
+            <ReviewsCarousel />
+          </div>
         </div>
       </section>
 

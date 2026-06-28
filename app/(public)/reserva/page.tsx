@@ -4,46 +4,22 @@ import Link from "next/link";
 import { useId, useMemo, useState, type FormEvent } from "react";
 import { SERVICES } from "@/lib/data/services";
 
-/* ────────────────────────── MOCKS DE AGENDA ────────────────────────── */
-
-const AVAILABLE_DAYS: readonly { value: string; label: string }[] = [
-  { value: "2026-06-01", label: "Lun 1 Junio" },
-  { value: "2026-06-02", label: "Mar 2 Junio" },
-  { value: "2026-06-03", label: "Mié 3 Junio" },
-  { value: "2026-06-04", label: "Jue 4 Junio" },
-  { value: "2026-06-05", label: "Vie 5 Junio" },
-] as const;
-
-const AVAILABLE_SLOTS: readonly string[] = [
-  "09:00",
-  "10:00",
-  "11:30",
-  "13:00",
-  "16:30",
-  "18:00",
-  "19:30",
-] as const;
-
 /* ────────────────────────── ESTADO ────────────────────────── */
 
 type FormState = {
   serviceId: string;
-  day: string;
-  slot: string;
   fullName: string;
-  phone: string;
   email: string;
+  phone: string;
   notes: string;
   acceptTerms: boolean;
 };
 
 const INITIAL_STATE: FormState = {
   serviceId: "",
-  day: "",
-  slot: "",
   fullName: "",
-  phone: "",
   email: "",
+  phone: "",
   notes: "",
   acceptTerms: false,
 };
@@ -62,10 +38,9 @@ export default function ReservaPage() {
 
   const isValid =
     form.serviceId !== "" &&
-    form.day !== "" &&
-    form.slot !== "" &&
     form.fullName.trim().length >= 2 &&
     form.phone.trim().length >= 6 &&
+    form.email.trim().length >= 5 &&
     form.acceptTerms;
 
   const update = <K extends keyof FormState>(key: K, value: FormState[K]) =>
@@ -75,8 +50,7 @@ export default function ReservaPage() {
     e.preventDefault();
     if (!isValid || submitting) return;
     setSubmitting(true);
-    // Simulación de petición a servidor (mock)
-    await new Promise((r) => setTimeout(r, 900));
+    await new Promise((r) => setTimeout(r, 700));
     setSubmitting(false);
     setConfirmed(true);
   };
@@ -88,7 +62,6 @@ export default function ReservaPage() {
 
   /* ───────────────────── SUCCESS STATE ───────────────────── */
   if (confirmed) {
-    const dayLabel = AVAILABLE_DAYS.find((d) => d.value === form.day)?.label;
     return (
       <section
         aria-labelledby="success-title"
@@ -104,28 +77,18 @@ export default function ReservaPage() {
           id="success-title"
           className="text-[clamp(1.75rem,4vw,2.75rem)] font-bold tracking-tight hyphens-auto break-words"
         >
-          ¡Cita confirmada!
+          ¡Solicitud recibida!
         </h1>
-        <p className="max-w-[40ch] text-[clamp(0.9375rem,1.7vw,1.125rem)] leading-relaxed text-muted-foreground break-words">
-          Hemos registrado tu reserva de <strong>{selectedService?.name}</strong> para el{" "}
-          <strong>{dayLabel}</strong> a las <strong>{form.slot}</strong>. Te enviaremos un recordatorio a tu teléfono.
+        <p className="max-w-[42ch] text-[clamp(0.9375rem,1.7vw,1.125rem)] leading-relaxed text-muted-foreground break-words">
+          Hemos recibido tu solicitud para{" "}
+          <strong>{selectedService?.name}</strong>. En breve te contactaremos por teléfono o email para acordar día y hora.
         </p>
         <dl className="w-full rounded-2xl border border-border bg-card p-[clamp(1rem,3vw,1.5rem)] text-left text-[clamp(0.875rem,1.5vw,1rem)]">
-          <div className="flex flex-wrap justify-between gap-[0.5rem] py-[0.375rem]">
-            <dt className="text-muted-foreground">Paciente</dt>
-            <dd className="font-medium break-words">{form.fullName}</dd>
-          </div>
-          <div className="flex flex-wrap justify-between gap-[0.5rem] py-[0.375rem]">
-            <dt className="text-muted-foreground">Teléfono</dt>
-            <dd className="font-medium">{form.phone}</dd>
-          </div>
+          <Row term="Paciente" value={form.fullName} />
+          <Row term="Teléfono" value={form.phone} />
+          <Row term="Email" value={form.email} />
           {selectedService && (
-            <div className="flex flex-wrap justify-between gap-[0.5rem] py-[0.375rem]">
-              <dt className="text-muted-foreground">Importe</dt>
-              <dd className="font-semibold text-primary">
-                {selectedService.price}
-              </dd>
-            </div>
+            <Row term="Importe estimado" value={selectedService.price} accent />
           )}
         </dl>
         <div className="flex w-full flex-wrap justify-center gap-[clamp(0.5rem,2vw,1rem)]">
@@ -134,7 +97,7 @@ export default function ReservaPage() {
             onClick={reset}
             className="inline-flex items-center justify-center rounded-full border border-border bg-background px-[clamp(1.25rem,3vw,2rem)] py-[clamp(0.625rem,1.75dvh,0.875rem)] text-[clamp(0.875rem,1.5vw,1rem)] font-semibold transition-colors hover:bg-muted active:scale-[0.97] active:opacity-80"
           >
-            Nueva reserva
+            Nueva solicitud
           </button>
           <Link
             href="/"
@@ -158,10 +121,10 @@ export default function ReservaPage() {
           id="reserva-title"
           className="text-[clamp(1.75rem,4vw,2.75rem)] font-bold tracking-tight hyphens-auto break-words"
         >
-          Reserva tu cita
+          Solicita tu cita
         </h1>
         <p className="max-w-[50ch] text-[clamp(0.9375rem,1.7vw,1.125rem)] leading-relaxed text-muted-foreground break-words">
-          Elige servicio, fecha y completa tus datos. Solo te llevará un minuto.
+          Elige servicio y déjanos tus datos. Te contactaremos para acordar día y hora.
         </p>
       </header>
 
@@ -178,7 +141,7 @@ export default function ReservaPage() {
               return (
                 <li key={service.id}>
                   <label
-                    className={`flex h-full cursor-pointer flex-col gap-[clamp(0.25rem,0.75dvh,0.5rem)] rounded-2xl border p-[clamp(1rem,2.5vw,1.25rem)] transition-all active:scale-[0.98] ${
+                    className={`flex h-full cursor-pointer flex-col gap-[clamp(0.375rem,1dvh,0.5rem)] rounded-2xl border p-[clamp(1rem,2.5vw,1.25rem)] transition-all active:scale-[0.98] ${
                       checked
                         ? "border-primary bg-primary/5 shadow-sm"
                         : "border-border bg-card hover:border-primary/50"
@@ -192,15 +155,13 @@ export default function ReservaPage() {
                       onChange={() => update("serviceId", service.id)}
                       className="sr-only"
                     />
-                    <span className="flex flex-wrap items-baseline justify-between gap-[0.5rem]">
-                      <span className="text-[clamp(1rem,1.7vw,1.125rem)] font-semibold break-words">
-                        {service.name}
-                      </span>
-                      <span className="text-[clamp(0.875rem,1.5vw,1rem)] font-bold text-primary whitespace-nowrap">
-                        {service.price}
-                      </span>
+                    <span className="block text-[clamp(1rem,1.7vw,1.125rem)] font-semibold break-words">
+                      {service.name}
                     </span>
-                    <span className="text-[clamp(0.8125rem,1.4vw,0.9375rem)] leading-relaxed text-muted-foreground break-words">
+                    <span className="block text-[clamp(0.9375rem,1.6vw,1.0625rem)] font-bold text-primary">
+                      {service.price}
+                    </span>
+                    <span className="block text-[clamp(0.8125rem,1.4vw,0.9375rem)] leading-relaxed text-muted-foreground break-words">
                       {service.description}
                     </span>
                   </label>
@@ -210,52 +171,8 @@ export default function ReservaPage() {
           </ul>
         </FieldSet>
 
-        {/* 2 · Fecha y hora */}
-        <FieldSet legend="2. Elige fecha y hora">
-          <div className="grid grid-cols-1 gap-[clamp(1rem,2.5vw,1.5rem)] sm:grid-cols-2">
-            <Field label="Día" htmlForId="day">
-              <select
-                id="day"
-                required
-                value={form.day}
-                onChange={(e) => update("day", e.target.value)}
-                className={inputClass}
-              >
-                <option value="" disabled>
-                  Selecciona un día…
-                </option>
-                {AVAILABLE_DAYS.map((d) => (
-                  <option key={d.value} value={d.value}>
-                    {d.label}
-                  </option>
-                ))}
-              </select>
-            </Field>
-
-            <Field label="Hora" htmlForId="slot">
-              <select
-                id="slot"
-                required
-                value={form.slot}
-                onChange={(e) => update("slot", e.target.value)}
-                disabled={form.day === ""}
-                className={`${inputClass} disabled:cursor-not-allowed disabled:opacity-50`}
-              >
-                <option value="" disabled>
-                  {form.day === "" ? "Elige día primero…" : "Selecciona hora…"}
-                </option>
-                {AVAILABLE_SLOTS.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
-                ))}
-              </select>
-            </Field>
-          </div>
-        </FieldSet>
-
-        {/* 3 · Datos paciente */}
-        <FieldSet legend="3. Tus datos">
+        {/* 2 · Datos paciente */}
+        <FieldSet legend="2. Tus datos">
           <div className="grid grid-cols-1 gap-[clamp(1rem,2.5vw,1.5rem)] sm:grid-cols-2">
             <Field label="Nombre completo" htmlForId="fullName">
               <input
@@ -270,40 +187,41 @@ export default function ReservaPage() {
                 placeholder="Ana García"
               />
             </Field>
-            <Field label="Teléfono" htmlForId="phone">
+            <Field label="Email" htmlForId="email">
               <input
-                id="phone"
-                type="tel"
+                id="email"
+                type="email"
                 required
-                autoComplete="tel"
-                inputMode="tel"
-                value={form.phone}
-                onChange={(e) => update("phone", e.target.value)}
+                autoComplete="email"
+                inputMode="email"
+                value={form.email}
+                onChange={(e) => update("email", e.target.value)}
                 className={inputClass}
-                placeholder="+34 600 000 000"
+                placeholder="ana@ejemplo.com"
               />
             </Field>
             <div className="sm:col-span-2">
-              <Field label="Email (opcional)" htmlForId="email">
+              <Field label="Teléfono" htmlForId="phone">
                 <input
-                  id="email"
-                  type="email"
-                  autoComplete="email"
-                  inputMode="email"
-                  value={form.email}
-                  onChange={(e) => update("email", e.target.value)}
+                  id="phone"
+                  type="tel"
+                  required
+                  autoComplete="tel"
+                  inputMode="tel"
+                  value={form.phone}
+                  onChange={(e) => update("phone", e.target.value)}
                   className={inputClass}
-                  placeholder="ana@ejemplo.com"
+                  placeholder="+34 600 000 000"
                 />
               </Field>
             </div>
           </div>
         </FieldSet>
 
-        {/* 4 · Anamnesis */}
-        <FieldSet legend="4. Anamnesis breve (opcional)">
+        {/* 3 · Notas */}
+        <FieldSet legend="3. Notas (opcional)">
           <Field
-            label="Notas médicas, alergias o medicación relevante"
+            label="Motivo de consulta, alergias o medicación relevante"
             htmlForId="notes"
             hint="Esta información ayuda al podólogo a preparar tu visita."
           >
@@ -318,7 +236,7 @@ export default function ReservaPage() {
           </Field>
         </FieldSet>
 
-        {/* 5 · Consentimiento */}
+        {/* 4 · Consentimiento */}
         <label className="flex items-start gap-[clamp(0.5rem,1.5vw,0.75rem)] rounded-xl bg-muted/40 p-[clamp(0.75rem,2vw,1rem)] cursor-pointer active:opacity-80">
           <input
             type="checkbox"
@@ -337,7 +255,7 @@ export default function ReservaPage() {
           disabled={!isValid || submitting}
           className="inline-flex w-full items-center justify-center rounded-full bg-primary px-[clamp(1.5rem,3.5vw,2.25rem)] py-[clamp(0.875rem,2.25dvh,1.125rem)] text-[clamp(1rem,1.7vw,1.0625rem)] font-semibold text-primary-foreground shadow-md transition-all hover:shadow-lg active:scale-[0.97] active:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:shadow-md"
         >
-          {submitting ? "Confirmando…" : "Confirmar reserva"}
+          {submitting ? "Enviando…" : "Solicitar cita"}
         </button>
       </form>
     </section>
@@ -395,6 +313,27 @@ function Field({
           {hint}
         </p>
       )}
+    </div>
+  );
+}
+
+function Row({
+  term,
+  value,
+  accent,
+}: {
+  term: string;
+  value: string;
+  accent?: boolean;
+}) {
+  return (
+    <div className="flex flex-wrap justify-between gap-[0.5rem] py-[0.375rem]">
+      <dt className="text-muted-foreground">{term}</dt>
+      <dd
+        className={`break-words ${accent ? "font-semibold text-primary" : "font-medium"}`}
+      >
+        {value}
+      </dd>
     </div>
   );
 }

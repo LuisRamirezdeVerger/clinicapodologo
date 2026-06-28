@@ -30,7 +30,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
 
       {/* ─────────── FOOTER ─────────── */}
       <footer className="w-full border-t border-border/40 bg-muted/30">
-        <div className="mx-auto grid w-full max-w-[80rem] grid-cols-1 gap-[clamp(1.5rem,4dvh,2.5rem)] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(2rem,5dvh,3.5rem)] sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto grid w-full max-w-[80rem] grid-cols-1 gap-[clamp(1.5rem,4dvh,2.5rem)] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(2rem,5dvh,3.5rem)] sm:grid-cols-2 lg:grid-cols-3">
           <section aria-labelledby="footer-brand">
             <h2
               id="footer-brand"
@@ -80,36 +80,14 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
                 +34 910 000 000
               </a>
               <a
-                href="mailto:info@clinicapodologia.es"
+                href="mailto:reservas@podologiabalboa.es"
                 className="break-words transition-colors hover:text-foreground active:scale-[0.98] active:opacity-70"
               >
-                info@clinicapodologia.es
+                reservas@podologiabalboa.es
               </a>
             </address>
           </section>
 
-          <section aria-labelledby="footer-hours">
-            <h2
-              id="footer-hours"
-              className="text-[clamp(0.875rem,1.5vw,1rem)] font-semibold uppercase tracking-wider"
-            >
-              Horario
-            </h2>
-            <dl className="mt-[clamp(0.75rem,2dvh,1rem)] flex flex-col gap-[clamp(0.375rem,1dvh,0.5rem)] text-[clamp(0.8125rem,1.4vw,0.9375rem)] text-muted-foreground">
-              <div className="flex flex-wrap justify-between gap-[0.5rem]">
-                <dt>Lun - Vie</dt>
-                <dd>09:00 - 20:00</dd>
-              </div>
-              <div className="flex flex-wrap justify-between gap-[0.5rem]">
-                <dt>Sábado</dt>
-                <dd>10:00 - 14:00</dd>
-              </div>
-              <div className="flex flex-wrap justify-between gap-[0.5rem]">
-                <dt>Domingo</dt>
-                <dd>Cerrado</dd>
-              </div>
-            </dl>
-          </section>
         </div>
 
         <div className="border-t border-border/40">
@@ -127,7 +105,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
         <p className="mx-auto w-full max-w-[80rem] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(0.625rem,1.5dvh,1rem)] text-center text-[clamp(0.6875rem,1.2vw,0.8125rem)] text-muted-foreground">
           Hecho con cariño por{" "}
           <a
-            href="https://lacasadelosinventos.vercel.app"
+            href="https://lacasadelosinventos.com"
             target="_blank"
             rel="noopener noreferrer"
             className="font-semibold text-foreground underline-offset-[0.25rem] transition-all hover:underline active:scale-[0.98] active:opacity-70"
