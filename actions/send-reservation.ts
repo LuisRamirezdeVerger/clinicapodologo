@@ -43,9 +43,10 @@ export async function submitReservation(
 
     const transporter = nodemailer.createTransport({
       host: SMTP_HOST,
-      port: 465,
-      secure: true,
+      port: 587,
+      secure: false, // STARTTLS: el handshake se hace tras conectar en texto plano
       auth: { user: SMTP_USER, pass: SMTP_PASS },
+      authMethod: "LOGIN", // fuerza AUTH LOGIN (evita el AUTH PLAIN rechazado por DonDominio)
     });
 
     await transporter.sendMail({

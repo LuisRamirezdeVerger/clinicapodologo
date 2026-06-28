@@ -27,14 +27,9 @@ export default function HomePage() {
         className="relative w-full overflow-hidden bg-gradient-to-br from-primary/5 via-background to-accent/5"
       >
         <div className="mx-auto flex w-full max-w-[80rem] flex-col items-center gap-[clamp(1.5rem,4dvh,2.5rem)] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(3rem,10dvh,7rem)] text-center">
-          <Image
-            src="/logo.webp"
-            alt="Podología Balboa Logo"
-            width={500}
-            height={500}
-            priority
-            className="h-[clamp(4rem,10vw,7rem)] w-auto object-contain"
-          />
+          <span className="block font-bold uppercase tracking-[0.25em] text-primary text-[clamp(0.75rem,2vw,0.875rem)]">
+            Podología Balboa
+          </span>
 
           <h1
             id="hero-title"
