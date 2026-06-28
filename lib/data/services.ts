@@ -1,5 +1,5 @@
 /**
- * Catálogo oficial de servicios de la Clínica de Podología.
+ * Catálogo oficial de servicios de Podología Balboa.
  * Fuente única de verdad consumida por la landing pública (`/`) y por el
  * flujo de reservas (`/reserva`). Si un precio o descripción cambia, se
  * edita aquí y se propaga automáticamente a toda la UI.

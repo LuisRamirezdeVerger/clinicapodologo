@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useId, useMemo, useState, type FormEvent } from "react";
 import { SERVICES } from "@/lib/data/services";
+import { submitReservation } from "@/actions/send-reservation";
 
 /* ────────────────────────── ESTADO ────────────────────────── */
 
@@ -30,6 +31,7 @@ export default function ReservaPage() {
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
   const [submitting, setSubmitting] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const selectedService = useMemo(
     () => SERVICES.find((s) => s.id === form.serviceId),
@@ -50,14 +52,29 @@ export default function ReservaPage() {
     e.preventDefault();
     if (!isValid || submitting) return;
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 700));
+    setServerError(null);
+
+    const fd = new FormData();
+    fd.set("fullName", form.fullName);
+    fd.set("email", form.email);
+    fd.set("phone", form.phone);
+    fd.set("serviceId", form.serviceId);
+    fd.set("notes", form.notes);
+
+    const result = await submitReservation(fd);
+
     setSubmitting(false);
-    setConfirmed(true);
+    if (result.success) {
+      setConfirmed(true);
+    } else {
+      setServerError(result.error);
+    }
   };
 
   const reset = () => {
     setForm(INITIAL_STATE);
     setConfirmed(false);
+    setServerError(null);
   };
 
   /* ───────────────────── SUCCESS STATE ───────────────────── */
@@ -257,6 +274,16 @@ export default function ReservaPage() {
         >
           {submitting ? "Enviando…" : "Solicitar cita"}
         </button>
+
+        {serverError && (
+          <p
+            role="alert"
+            aria-live="polite"
+            className="rounded-xl border border-destructive/40 bg-destructive/10 px-[clamp(0.875rem,2.5vw,1.25rem)] py-[clamp(0.625rem,1.75dvh,0.875rem)] text-[clamp(0.8125rem,1.4vw,0.9375rem)] text-destructive break-words"
+          >
+            {serverError}
+          </p>
+        )}
       </form>
     </section>
   );

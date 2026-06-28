@@ -36,7 +36,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
               id="footer-brand"
               className="text-[clamp(1rem,2vw,1.25rem)] font-bold"
             >
-              Clínica Podología
+              Podología Balboa
             </h2>
             <p className="mt-[clamp(0.5rem,1.5dvh,0.75rem)] text-[clamp(0.8125rem,1.4vw,0.9375rem)] leading-relaxed text-muted-foreground break-words">
               Cuidamos la salud de tus pies con tecnología avanzada y trato cercano desde hace más de una década.
@@ -92,7 +92,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
 
         <div className="border-t border-border/40">
           <p className="mx-auto w-full max-w-[80rem] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(1rem,2.5dvh,1.5rem)] text-center text-[clamp(0.75rem,1.3vw,0.875rem)] text-muted-foreground">
-            © {new Date().getFullYear()} Clínica Podología. Todos los derechos reservados.
+            © {new Date().getFullYear()} Podología Balboa. Todos los derechos reservados.
           </p>
         </div>
       </footer>

@@ -48,7 +48,7 @@ export default function PublicNav() {
           onClick={close}
           className="text-[clamp(1.125rem,2.5vw,1.5rem)] font-bold tracking-tight transition-opacity hover:opacity-80 active:scale-[0.98] active:opacity-70"
         >
-          Clínica Podología
+          Podología Balboa
         </Link>
 
         {/* Desktop links */}

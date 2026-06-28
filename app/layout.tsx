@@ -12,11 +12,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://clinica-podologia.example.com"),
   title: {
-    default: "Clínica Podología | Cuidamos la salud de tus pies",
-    template: "%s | Clínica Podología",
+    default: "Podología Balboa | Cuidamos la salud de tus pies",
+    template: "%s | Podología Balboa",
   },
   description:
-    "Clínica de podología especializada en quiropodia, estudio biomecánico, podología infantil y cirugía ungueal. Reserva tu cita online en minutos.",
+    "Podología Balboa: especialistas en quiropodia, estudio biomecánico, plantillas personalizadas y cirugía ungueal. Reserva tu cita online en minutos.",
   keywords: [
     "podología",
     "podólogo",
@@ -26,14 +26,14 @@ export const metadata: Metadata = {
     "uñas encarnadas",
     "clínica del pie",
   ],
-  authors: [{ name: "Clínica Podología" }],
+  authors: [{ name: "Podología Balboa" }],
   openGraph: {
     type: "website",
     locale: "es_ES",
-    siteName: "Clínica Podología",
-    title: "Clínica Podología | Cuidamos la salud de tus pies",
+    siteName: "Podología Balboa",
+    title: "Podología Balboa | Cuidamos la salud de tus pies",
     description:
-      "Tratamientos podológicos personalizados con tecnología avanzada. Reserva online.",
+      "Tratamientos podológicos personalizados con tecnología avanzada. Reserva online en Podología Balboa.",
   },
   robots: { index: true, follow: true },
 };

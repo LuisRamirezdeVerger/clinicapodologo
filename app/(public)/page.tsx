@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { SERVICES } from "@/lib/data/services";
 import ReviewsCarousel from "@/components/ui/reviews-carousel";
@@ -26,9 +27,14 @@ export default function HomePage() {
         className="relative w-full overflow-hidden bg-gradient-to-br from-primary/5 via-background to-accent/5"
       >
         <div className="mx-auto flex w-full max-w-[80rem] flex-col items-center gap-[clamp(1.5rem,4dvh,2.5rem)] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(3rem,10dvh,7rem)] text-center">
-          <span className="inline-flex rounded-full border border-border bg-background/60 px-[clamp(0.75rem,2vw,1rem)] py-[clamp(0.25rem,0.75dvh,0.375rem)] text-[clamp(0.75rem,1.3vw,0.875rem)] font-medium text-muted-foreground backdrop-blur">
-            Podología deportiva y general · desde 2016
-          </span>
+          <Image
+            src="/logo.webp"
+            alt="Podología Balboa Logo"
+            width={500}
+            height={500}
+            priority
+            className="h-[clamp(4rem,10vw,7rem)] w-auto object-contain"
+          />
 
           <h1
             id="hero-title"
@@ -157,7 +163,7 @@ export default function HomePage() {
         aria-labelledby="about-me-title"
         className="w-full scroll-mt-[5rem]"
       >
-        <div className="mx-auto flex w-full max-w-[60rem] flex-col gap-[clamp(1rem,3dvh,1.75rem)] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(3rem,8dvh,6rem)]">
+        <div className="mx-auto flex w-full max-w-[72rem] flex-col gap-[clamp(1.5rem,4dvh,2.5rem)] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(3rem,8dvh,6rem)]">
           <header className="flex flex-col gap-[clamp(0.5rem,1.5dvh,0.75rem)] text-center">
             <span className="text-[clamp(0.75rem,1.3vw,0.875rem)] font-semibold uppercase tracking-wider text-primary">
               Conoce a tu podólogo
@@ -169,14 +175,29 @@ export default function HomePage() {
               Sobre mí
             </h2>
           </header>
-          <article className="flex flex-col gap-[clamp(0.875rem,2dvh,1.25rem)] rounded-3xl border border-border bg-card p-[clamp(1.5rem,4vw,2.5rem)]">
-            <p className="text-[clamp(0.9375rem,1.7vw,1.125rem)] leading-relaxed text-foreground break-words">
-              Mi nombre es Ángel, la dedicación a la salud siempre ha sido mi vocación, ha sido a raíz de la podología cuando he podido realizarme y ayudar a la gente en problemas mas concretos.
-            </p>
-            <p className="text-[clamp(0.9375rem,1.7vw,1.125rem)] leading-relaxed text-muted-foreground break-words">
-              ¿Qué puedo hacer por usted? Ofrecerle los tratamientos propios de la podología, aplicando un amplio conocimiento en las ramas de la anatomía humana, fisiología, patofisiología, biomecánica del miembro inferior, radiología, farmacología, medicina general y cirugía.
-            </p>
-          </article>
+
+          <div className="grid grid-cols-1 items-center gap-[clamp(2rem,5vw,4rem)] md:grid-cols-2">
+            {/* Columna izquierda · Foto */}
+            <figure className="mx-auto w-full max-w-[min(100%,25rem)]">
+              <Image
+                src="/perfil.webp"
+                alt="Ángel Balboa - Gerente de Podología Balboa"
+                width={500}
+                height={500}
+                className="aspect-square h-auto w-full rounded-2xl object-cover shadow-md"
+              />
+            </figure>
+
+            {/* Columna derecha · Texto biográfico */}
+            <article className="flex flex-col gap-[clamp(0.875rem,2dvh,1.25rem)]">
+              <p className="text-[clamp(0.9375rem,1.7vw,1.125rem)] leading-relaxed text-foreground break-words">
+                Mi nombre es Ángel, la dedicación a la salud siempre ha sido mi vocación, ha sido a raíz de la podología cuando he podido realizarme y ayudar a la gente en problemas mas concretos.
+              </p>
+              <p className="text-[clamp(0.9375rem,1.7vw,1.125rem)] leading-relaxed text-muted-foreground break-words">
+                ¿Qué puedo hacer por usted? Ofrecerle los tratamientos propios de la podología, aplicando un amplio conocimiento en las ramas de la anatomía humana, fisiología, patofisiología, biomecánica del miembro inferior, radiología, farmacología, medicina general y cirugía.
+              </p>
+            </article>
+          </div>
         </div>
       </section>
 
