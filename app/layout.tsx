@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
+import { SITE } from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -10,36 +11,81 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://clinica-podologia.example.com"),
+  metadataBase: new URL(SITE.url),
   title: {
-    default: "Podología Balboa | Cuidamos la salud de tus pies",
-    template: "%s | Podología Balboa",
+    default: `${SITE.name} | Especialistas en Biomecánica y Pies`,
+    template: `%s | ${SITE.name}`,
   },
-  description:
-    "Podología Balboa: especialistas en quiropodia, estudio biomecánico, plantillas personalizadas y cirugía ungueal. Reserva tu cita online en minutos.",
+  description: SITE.description,
+  applicationName: SITE.name,
+  authors: [{ name: SITE.name, url: SITE.url }],
+  creator: SITE.name,
+  publisher: SITE.name,
   keywords: [
-    "podología",
-    "podólogo",
-    "quiropodia",
-    "estudio biomecánico",
-    "plantillas personalizadas",
-    "uñas encarnadas",
-    "clínica del pie",
+    "podólogo Sevilla",
+    "podología Sevilla",
+    "quiropodia Sevilla",
+    "estudio de la pisada Sevilla",
+    "estudio biomecánico Sevilla",
+    "plantillas personalizadas Sevilla",
+    "tratamiento uña encarnada",
+    "papiloma plantar",
+    "ortonixia",
+    "podólogo a domicilio Sevilla",
+    "podología deportiva",
+    "Podología Balboa",
   ],
-  authors: [{ name: "Podología Balboa" }],
+  category: "health",
+  alternates: {
+    canonical: SITE.url,
+    languages: { "es-ES": SITE.url },
+  },
   openGraph: {
     type: "website",
-    locale: "es_ES",
-    siteName: "Podología Balboa",
-    title: "Podología Balboa | Cuidamos la salud de tus pies",
-    description:
-      "Tratamientos podológicos personalizados con tecnología avanzada. Reserva online en Podología Balboa.",
+    locale: SITE.locale,
+    url: SITE.url,
+    siteName: SITE.name,
+    title: `${SITE.name} | Especialistas en Biomecánica y Pies`,
+    description: SITE.description,
+    images: [
+      {
+        url: SITE.ogImage,
+        width: 1200,
+        height: 630,
+        alt: `${SITE.name} - Clínica podológica en Sevilla`,
+      },
+    ],
   },
-  robots: { index: true, follow: true },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE.name} | Especialistas en Biomecánica y Pies`,
+    description: SITE.description,
+    images: [SITE.ogImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  formatDetection: {
+    telephone: true,
+    email: true,
+    address: true,
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/logo.webp",
+  },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0aa6a0",
+  themeColor: "#7b2334",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",

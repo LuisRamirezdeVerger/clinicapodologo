@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SERVICES } from "@/lib/data/services";
 import ReviewsCarousel from "@/components/ui/reviews-carousel";
+import StructuredData from "@/components/seo/structured-data";
 
 /* ─────────────────────────────────────────────
    DATOS DE PRESENTACIÓN (no replicados)
@@ -21,19 +22,26 @@ const SPECIALTIES = [
 export default function HomePage() {
   return (
     <>
+      <StructuredData />
+
       {/* ─────── HERO ─────── */}
       <section
         aria-labelledby="hero-title"
         className="relative w-full overflow-hidden bg-gradient-to-br from-primary/5 via-background to-accent/5"
       >
         <div className="mx-auto flex w-full max-w-[80rem] flex-col items-center gap-[clamp(1.5rem,4dvh,2.5rem)] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(3rem,10dvh,7rem)] text-center">
-          <span className="block font-bold uppercase tracking-[0.25em] text-primary text-[clamp(0.75rem,2vw,0.875rem)]">
-            Podología Balboa
-          </span>
+          <Image
+            src="/logo.webp"
+            alt="Logotipo Oficial Podología Balboa"
+            priority
+            width={300}
+            height={300}
+            className="h-[clamp(8rem,20vw,12rem)] w-auto object-contain drop-shadow-sm"
+          />
 
           <h1
             id="hero-title"
-            className="max-w-[40ch] text-[clamp(2rem,6vw,4.5rem)] font-bold leading-[1.1] tracking-tight hyphens-auto break-words"
+            className="max-w-[40ch] text-[clamp(1.75rem,5vw,3.5rem)] font-bold leading-[1.1] tracking-tight text-foreground hyphens-auto break-words"
           >
             Cuidamos tus pies para que avances sin límites
           </h1>

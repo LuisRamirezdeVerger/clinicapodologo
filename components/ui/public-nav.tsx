@@ -46,7 +46,7 @@ export default function PublicNav() {
           href="/"
           aria-label="Ir a la página principal"
           onClick={close}
-          className="text-[clamp(1.125rem,2.5vw,1.5rem)] font-bold tracking-tight transition-opacity hover:opacity-80 active:scale-[0.98] active:opacity-70"
+          className="font-bold tracking-tight text-foreground text-[clamp(1.25rem,3vw,1.5rem)] transition-opacity hover:opacity-80 active:scale-[0.98] active:opacity-70"
         >
           Podología Balboa
         </Link>
