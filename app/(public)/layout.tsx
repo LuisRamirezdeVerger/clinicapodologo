@@ -102,8 +102,8 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
             >
               Zonas de servicio
             </h2>
-            <ul className="mt-[clamp(0.75rem,2dvh,1rem)] flex flex-wrap gap-[clamp(0.25rem,0.75vw,0.375rem)] text-[clamp(0.75rem,1.3vw,0.8125rem)]">
-              {SITE.serviceAreas.map((area) => (
+            <ul className="mt-[clamp(0.75rem,2dvh,1rem)] flex flex-wrap items-center gap-[clamp(0.25rem,0.75vw,0.375rem)] text-[clamp(0.75rem,1.3vw,0.8125rem)]">
+              {SITE.serviceAreas.slice(0, 5).map((area) => (
                 <li
                   key={area}
                   className="rounded-full bg-background px-[clamp(0.5rem,1.5vw,0.75rem)] py-[0.1875rem] text-muted-foreground break-words"
@@ -111,6 +111,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
                   {area}
                 </li>
               ))}
+              <li className="text-muted-foreground/70 italic">… y más</li>
             </ul>
           </section>
         </div>

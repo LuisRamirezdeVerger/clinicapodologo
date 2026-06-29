@@ -79,7 +79,7 @@ export const metadata: Metadata = {
     address: true,
   },
   icons: {
-    icon: "/logo.webp",
+    icon: [{ url: "/logo.webp", type: "image/webp" }],
     apple: "/logo.webp",
   },
 };
