@@ -104,7 +104,7 @@ function buildEmailHtml(data: {
         <td align="center">
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.05);">
             <tr>
-              <td style="background:#0aa6a0;padding:24px 32px;color:#ffffff;">
+              <td style="background:#7b2334;padding:24px 32px;color:#ffffff;">
                 <h1 style="margin:0;font-size:20px;font-weight:700;">Nueva solicitud de cita</h1>
                 <p style="margin:4px 0 0 0;font-size:14px;opacity:0.9;">Podología Balboa</p>
               </td>
@@ -114,14 +114,14 @@ function buildEmailHtml(data: {
                 <h2 style="margin:0 0 16px 0;font-size:16px;color:#111827;border-bottom:1px solid #e5e7eb;padding-bottom:8px;">Datos del paciente</h2>
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;">
                   <tr><td style="padding:8px 0;color:#6b7280;width:140px;">Nombre</td><td style="padding:8px 0;color:#111827;font-weight:600;">${safe(data.fullName)}</td></tr>
-                  <tr><td style="padding:8px 0;color:#6b7280;">Email</td><td style="padding:8px 0;color:#111827;"><a href="mailto:${safe(data.email)}" style="color:#0aa6a0;text-decoration:none;">${safe(data.email)}</a></td></tr>
-                  <tr><td style="padding:8px 0;color:#6b7280;">Teléfono</td><td style="padding:8px 0;color:#111827;"><a href="tel:${safe(data.phone)}" style="color:#0aa6a0;text-decoration:none;">${safe(data.phone)}</a></td></tr>
+                  <tr><td style="padding:8px 0;color:#6b7280;">Email</td><td style="padding:8px 0;color:#111827;"><a href="mailto:${safe(data.email)}" style="color:#7b2334;text-decoration:none;">${safe(data.email)}</a></td></tr>
+                  <tr><td style="padding:8px 0;color:#6b7280;">Teléfono</td><td style="padding:8px 0;color:#111827;"><a href="tel:${safe(data.phone)}" style="color:#7b2334;text-decoration:none;">${safe(data.phone)}</a></td></tr>
                 </table>
 
                 <h2 style="margin:24px 0 16px 0;font-size:16px;color:#111827;border-bottom:1px solid #e5e7eb;padding-bottom:8px;">Servicio solicitado</h2>
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;">
                   <tr><td style="padding:8px 0;color:#6b7280;width:140px;">Servicio</td><td style="padding:8px 0;color:#111827;font-weight:600;">${safe(data.serviceName)}</td></tr>
-                  <tr><td style="padding:8px 0;color:#6b7280;">Precio estimado</td><td style="padding:8px 0;color:#0aa6a0;font-weight:700;">${safe(data.servicePrice)}</td></tr>
+                  <tr><td style="padding:8px 0;color:#6b7280;">Precio estimado</td><td style="padding:8px 0;color:#7b2334;font-weight:700;">${safe(data.servicePrice)}</td></tr>
                   ${notesBlock}
                 </table>
 

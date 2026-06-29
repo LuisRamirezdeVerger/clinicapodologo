@@ -21,8 +21,8 @@ export const SITE = {
     country: "ES",
   },
   geo: {
-    latitude: 37.3891,
-    longitude: -5.9845,
+    latitude: 37.38821,
+    longitude: -5.96784,
   },
   serviceAreas: [
     "Sevilla",
