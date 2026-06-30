@@ -31,9 +31,9 @@ export default async function LegalNoticePage({
         </p>
         <ul className="list-disc pl-[1.25rem]">
           <li>
-            {isEn ? "Trade name" : "Denominación"}: <strong>{SITE.name}</strong> — [Insertar Razón Social]
+            {isEn ? "Trade name" : "Denominación"}: <strong>{SITE.name}</strong> 
           </li>
-          <li>{isEn ? "Tax ID" : "NIF/CIF"}: [Insertar NIF/CIF]</li>
+          <li>{isEn ? "Tax ID" : "NIF/CIF"}: 30264306D</li>
           <li>
             {isEn ? "Address" : "Domicilio"}: {SITE.address.street},{" "}
             {SITE.address.postalCode} {SITE.address.locality}
