@@ -1,0 +1,93 @@
+{
+  "nav": {
+    "services": "Servicios",
+    "clinic": "Clínica",
+    "aboutMe": "Sobre mí",
+    "contact": "Contacto",
+    "book": "Reservar"
+  },
+  "hero": {
+    "title": "Cuidamos tus pies para que avances sin límites",
+    "subtitle": "Diagnóstico certero con análisis de la marcha informatizado y plataforma de presiones. Reserva tu cita online en menos de un minuto.",
+    "cta": "Reservar cita"
+  },
+  "services": {
+    "sectionTitle": "Nuestros servicios",
+    "sectionSubtitle": "Precios transparentes. Sin sorpresas en consulta."
+  },
+  "aboutMe": {
+    "kicker": "Conoce a tu podólogo",
+    "title": "Sobre mí",
+    "imageAlt": "Ángel Balboa - Gerente de Podología Balboa",
+    "paragraph1": "Mi nombre es Ángel, la dedicación a la salud siempre ha sido mi vocación, ha sido a raíz de la podología cuando he podido realizarme y ayudar a la gente en problemas más concretos.",
+    "paragraph2": "¿Qué puedo hacer por usted? Ofrecerle los tratamientos propios de la podología, aplicando un amplio conocimiento en las ramas de la anatomía humana, fisiología, patofisiología, biomecánica del miembro inferior, radiología, farmacología, medicina general y cirugía."
+  },
+  "form": {
+    "pageTitle": "Solicita tu cita",
+    "pageSubtitle": "Elige servicio y déjanos tus datos. Te contactaremos para acordar día y hora.",
+    "stepService": "1. Selecciona un servicio",
+    "stepData": "2. Tus datos",
+    "stepNotes": "3. Notas (opcional)",
+    "labels": {
+      "fullName": "Nombre completo",
+      "email": "Email",
+      "phone": "Teléfono",
+      "notes": "Motivo de consulta, alergias o medicación relevante"
+    },
+    "placeholders": {
+      "fullName": "Ana García",
+      "email": "ana@ejemplo.com",
+      "phone": "+34 600 000 000",
+      "notes": "Ej: Diabetes tipo II, alergia al látex…"
+    },
+    "hints": {
+      "notes": "Esta información ayuda al podólogo a preparar tu visita."
+    },
+    "consentBefore": "He leído y acepto la ",
+    "consentLink": "política de privacidad",
+    "consentAfter": " y el tratamiento de mis datos clínicos por la clínica.",
+    "submit": "Solicitar cita",
+    "submitting": "Enviando…",
+    "validation": {
+      "missingFields": "Faltan campos obligatorios.",
+      "invalidService": "Servicio no válido.",
+      "generic": "No hemos podido enviar tu solicitud. Inténtalo de nuevo o llámanos directamente."
+    },
+    "success": {
+      "title": "¡Solicitud recibida!",
+      "body": "Hemos recibido tu solicitud para",
+      "bodySuffix": ". En breve te contactaremos por teléfono o email para acordar día y hora.",
+      "rowPatient": "Paciente",
+      "rowPhone": "Teléfono",
+      "rowEmail": "Email",
+      "rowPrice": "Importe estimado",
+      "newRequest": "Nueva solicitud",
+      "goHome": "Volver al inicio"
+    }
+  },
+  "footer": {
+    "tagline": "Cuidamos la salud de tus pies con tecnología avanzada y trato cercano desde hace más de una década.",
+    "nav": "Navegación",
+    "contact": "Contacto",
+    "areas": "Zonas de servicio",
+    "andMore": "… y más",
+    "rights": "Todos los derechos reservados.",
+    "credits": "Hecho con cariño por"
+  },
+  "languageSwitcher": {
+    "label": "Cambiar idioma",
+    "es": "Español",
+    "en": "English"
+  },
+  "legal": {
+    "notice": "Aviso legal",
+    "privacy": "Política de privacidad",
+    "cookies": "Política de cookies",
+    "banner": {
+      "message": "Utilizamos cookies propias y de terceros para mejorar tu experiencia y analizar el tráfico. Puedes consultar más información en nuestra Política de cookies.",
+      "accept": "Aceptar",
+      "reject": "Rechazar",
+      "learnMore": "Más información"
+    }
+  }
+}

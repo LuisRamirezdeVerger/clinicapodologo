@@ -58,7 +58,9 @@ export async function submitReservation(
         fullName,
         email,
         phone,
-        serviceName: service.name,
+        // El email lo lee siempre el equipo clínico → en español, independiente
+        // del idioma con el que rellenó el paciente la web.
+        serviceName: service.name.es,
         servicePrice: service.price,
         notes,
       }),

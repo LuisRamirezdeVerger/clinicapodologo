@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { useId, useMemo, useState, type FormEvent } from "react";
-import { SERVICES } from "@/lib/data/services";
+import { SERVICES, pickServiceName, pickServiceDescription } from "@/lib/data/services";
 import { submitReservation } from "@/actions/send-reservation";
+import type { Dictionary, Locale } from "@/lib/dictionaries";
 
-/* ────────────────────────── ESTADO ────────────────────────── */
+type FormDict = Dictionary["form"];
 
 type FormState = {
   serviceId: string;
@@ -25,9 +26,13 @@ const INITIAL_STATE: FormState = {
   acceptTerms: false,
 };
 
-/* ────────────────────────── PAGE ────────────────────────── */
-
-export default function ReservaPage() {
+export default function ReservaForm({
+  locale,
+  dict,
+}: {
+  locale: Locale;
+  dict: FormDict;
+}) {
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
   const [submitting, setSubmitting] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
@@ -62,13 +67,9 @@ export default function ReservaPage() {
     fd.set("notes", form.notes);
 
     const result = await submitReservation(fd);
-
     setSubmitting(false);
-    if (result.success) {
-      setConfirmed(true);
-    } else {
-      setServerError(result.error);
-    }
+    if (result.success) setConfirmed(true);
+    else setServerError(result.error || dict.validation.generic);
   };
 
   const reset = () => {
@@ -77,7 +78,7 @@ export default function ReservaPage() {
     setServerError(null);
   };
 
-  /* ───────────────────── SUCCESS STATE ───────────────────── */
+  /* ───────────────── SUCCESS ───────────────── */
   if (confirmed) {
     return (
       <section
@@ -94,18 +95,23 @@ export default function ReservaPage() {
           id="success-title"
           className="text-[clamp(1.75rem,4vw,2.75rem)] font-bold tracking-tight hyphens-auto break-words"
         >
-          ¡Solicitud recibida!
+          {dict.success.title}
         </h1>
         <p className="max-w-[42ch] text-[clamp(0.9375rem,1.7vw,1.125rem)] leading-relaxed text-muted-foreground break-words">
-          Hemos recibido tu solicitud para{" "}
-          <strong>{selectedService?.name}</strong>. En breve te contactaremos por teléfono o email para acordar día y hora.
+          {dict.success.body}{" "}
+          <strong>{selectedService && pickServiceName(selectedService, locale)}</strong>
+          {dict.success.bodySuffix}
         </p>
         <dl className="w-full rounded-2xl border border-border bg-card p-[clamp(1rem,3vw,1.5rem)] text-left text-[clamp(0.875rem,1.5vw,1rem)]">
-          <Row term="Paciente" value={form.fullName} />
-          <Row term="Teléfono" value={form.phone} />
-          <Row term="Email" value={form.email} />
+          <Row term={dict.success.rowPatient} value={form.fullName} />
+          <Row term={dict.success.rowPhone} value={form.phone} />
+          <Row term={dict.success.rowEmail} value={form.email} />
           {selectedService && (
-            <Row term="Importe estimado" value={selectedService.price} accent />
+            <Row
+              term={dict.success.rowPrice}
+              value={selectedService.price}
+              accent
+            />
           )}
         </dl>
         <div className="flex w-full flex-wrap justify-center gap-[clamp(0.5rem,2vw,1rem)]">
@@ -114,20 +120,20 @@ export default function ReservaPage() {
             onClick={reset}
             className="inline-flex items-center justify-center rounded-full border border-border bg-background px-[clamp(1.25rem,3vw,2rem)] py-[clamp(0.625rem,1.75dvh,0.875rem)] text-[clamp(0.875rem,1.5vw,1rem)] font-semibold transition-colors hover:bg-muted active:scale-[0.97] active:opacity-80"
           >
-            Nueva solicitud
+            {dict.success.newRequest}
           </button>
           <Link
-            href="/"
+            href={`/${locale}`}
             className="inline-flex items-center justify-center rounded-full bg-primary px-[clamp(1.25rem,3vw,2rem)] py-[clamp(0.625rem,1.75dvh,0.875rem)] text-[clamp(0.875rem,1.5vw,1rem)] font-semibold text-primary-foreground shadow-md transition-all hover:shadow-lg active:scale-[0.97] active:opacity-90"
           >
-            Volver al inicio
+            {dict.success.goHome}
           </Link>
         </div>
       </section>
     );
   }
 
-  /* ───────────────────── FORM STATE ───────────────────── */
+  /* ───────────────── FORM ───────────────── */
   return (
     <section
       aria-labelledby="reserva-title"
@@ -138,10 +144,10 @@ export default function ReservaPage() {
           id="reserva-title"
           className="text-[clamp(1.75rem,4vw,2.75rem)] font-bold tracking-tight hyphens-auto break-words"
         >
-          Solicita tu cita
+          {dict.pageTitle}
         </h1>
         <p className="max-w-[50ch] text-[clamp(0.9375rem,1.7vw,1.125rem)] leading-relaxed text-muted-foreground break-words">
-          Elige servicio y déjanos tus datos. Te contactaremos para acordar día y hora.
+          {dict.pageSubtitle}
         </p>
       </header>
 
@@ -151,7 +157,7 @@ export default function ReservaPage() {
         className="mt-[clamp(2rem,5dvh,3rem)] flex flex-col gap-[clamp(1.5rem,4dvh,2.5rem)]"
       >
         {/* 1 · Servicio */}
-        <FieldSet legend="1. Selecciona un servicio">
+        <FieldSet legend={dict.stepService}>
           <ul className="grid grid-cols-1 gap-[clamp(0.75rem,2vw,1rem)] sm:grid-cols-2">
             {SERVICES.map((service) => {
               const checked = form.serviceId === service.id;
@@ -173,13 +179,13 @@ export default function ReservaPage() {
                       className="sr-only"
                     />
                     <span className="block text-[clamp(1rem,1.7vw,1.125rem)] font-semibold break-words">
-                      {service.name}
+                      {pickServiceName(service, locale)}
                     </span>
                     <span className="block text-[clamp(0.9375rem,1.6vw,1.0625rem)] font-bold text-primary">
                       {service.price}
                     </span>
                     <span className="block text-[clamp(0.8125rem,1.4vw,0.9375rem)] leading-relaxed text-muted-foreground break-words">
-                      {service.description}
+                      {pickServiceDescription(service, locale)}
                     </span>
                   </label>
                 </li>
@@ -189,9 +195,9 @@ export default function ReservaPage() {
         </FieldSet>
 
         {/* 2 · Datos paciente */}
-        <FieldSet legend="2. Tus datos">
+        <FieldSet legend={dict.stepData}>
           <div className="grid grid-cols-1 gap-[clamp(1rem,2.5vw,1.5rem)] sm:grid-cols-2">
-            <Field label="Nombre completo" htmlForId="fullName">
+            <Field label={dict.labels.fullName} htmlForId="fullName">
               <input
                 id="fullName"
                 type="text"
@@ -201,10 +207,10 @@ export default function ReservaPage() {
                 value={form.fullName}
                 onChange={(e) => update("fullName", e.target.value)}
                 className={inputClass}
-                placeholder="Ana García"
+                placeholder={dict.placeholders.fullName}
               />
             </Field>
-            <Field label="Email" htmlForId="email">
+            <Field label={dict.labels.email} htmlForId="email">
               <input
                 id="email"
                 type="email"
@@ -214,11 +220,11 @@ export default function ReservaPage() {
                 value={form.email}
                 onChange={(e) => update("email", e.target.value)}
                 className={inputClass}
-                placeholder="ana@ejemplo.com"
+                placeholder={dict.placeholders.email}
               />
             </Field>
             <div className="sm:col-span-2">
-              <Field label="Teléfono" htmlForId="phone">
+              <Field label={dict.labels.phone} htmlForId="phone">
                 <input
                   id="phone"
                   type="tel"
@@ -228,7 +234,7 @@ export default function ReservaPage() {
                   value={form.phone}
                   onChange={(e) => update("phone", e.target.value)}
                   className={inputClass}
-                  placeholder="+34 600 000 000"
+                  placeholder={dict.placeholders.phone}
                 />
               </Field>
             </div>
@@ -236,11 +242,11 @@ export default function ReservaPage() {
         </FieldSet>
 
         {/* 3 · Notas */}
-        <FieldSet legend="3. Notas (opcional)">
+        <FieldSet legend={dict.stepNotes}>
           <Field
-            label="Motivo de consulta, alergias o medicación relevante"
+            label={dict.labels.notes}
             htmlForId="notes"
-            hint="Esta información ayuda al podólogo a preparar tu visita."
+            hint={dict.hints.notes}
           >
             <textarea
               id="notes"
@@ -248,7 +254,7 @@ export default function ReservaPage() {
               value={form.notes}
               onChange={(e) => update("notes", e.target.value)}
               className={`${inputClass} min-h-[6rem] resize-y`}
-              placeholder="Ej: Diabetes tipo II, alergia al látex…"
+              placeholder={dict.placeholders.notes}
             />
           </Field>
         </FieldSet>
@@ -263,7 +269,17 @@ export default function ReservaPage() {
             className="mt-[0.25rem] h-[1rem] w-[1rem] accent-primary"
           />
           <span className="text-[clamp(0.8125rem,1.4vw,0.9375rem)] leading-relaxed text-muted-foreground break-words">
-            Acepto la política de privacidad y el tratamiento de mis datos clínicos por la clínica.
+            {dict.consentBefore}
+            <Link
+              href={`/${locale}/legal/privacidad`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="text-primary underline underline-offset-[0.25rem] transition-colors hover:text-primary/80"
+            >
+              {dict.consentLink}
+            </Link>
+            {dict.consentAfter}
           </span>
         </label>
 
@@ -272,7 +288,7 @@ export default function ReservaPage() {
           disabled={!isValid || submitting}
           className="inline-flex w-full items-center justify-center rounded-full bg-primary px-[clamp(1.5rem,3.5vw,2.25rem)] py-[clamp(0.875rem,2.25dvh,1.125rem)] text-[clamp(1rem,1.7vw,1.0625rem)] font-semibold text-primary-foreground shadow-md transition-all hover:shadow-lg active:scale-[0.97] active:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:shadow-md"
         >
-          {submitting ? "Enviando…" : "Solicitar cita"}
+          {submitting ? dict.submitting : dict.submit}
         </button>
 
         {serverError && (

@@ -2,15 +2,33 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import LanguageSwitcher from "@/components/ui/language-switcher";
 
-const NAV_LINKS = [
-  { href: "/#servicios", label: "Servicios" },
-  { href: "/#equipo", label: "Clínica" },
-  { href: "/#sobre-mi", label: "Sobre mí" },
-  { href: "/#contacto", label: "Contacto" },
-] as const;
+export type NavDict = {
+  services: string;
+  clinic: string;
+  aboutMe: string;
+  contact: string;
+  book: string;
+};
 
-export default function PublicNav() {
+export type SwitcherDict = { label: string };
+
+export default function PublicNav({
+  locale,
+  nav,
+  switcher,
+}: {
+  locale: string;
+  nav: NavDict;
+  switcher: SwitcherDict;
+}) {
+  const NAV_LINKS = [
+    { href: `/${locale}#servicios`, label: nav.services },
+    { href: `/${locale}#equipo`, label: nav.clinic },
+    { href: `/${locale}#sobre-mi`, label: nav.aboutMe },
+    { href: `/${locale}#contacto`, label: nav.contact },
+  ];
   const [open, setOpen] = useState(false);
 
   // Cierra con Escape (accesibilidad)
@@ -43,8 +61,8 @@ export default function PublicNav() {
         className="mx-auto flex w-full max-w-[80rem] flex-wrap items-center justify-between gap-[clamp(0.5rem,2vw,1.5rem)] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(0.75rem,2dvh,1.25rem)]"
       >
         <Link
-          href="/"
-          aria-label="Ir a la página principal"
+          href={`/${locale}`}
+          aria-label="Podología Balboa"
           onClick={close}
           className="font-bold tracking-tight text-foreground text-[clamp(1.25rem,3vw,1.5rem)] transition-opacity hover:opacity-80 active:scale-[0.98] active:opacity-70"
         >
@@ -66,12 +84,14 @@ export default function PublicNav() {
         </ul>
 
         <div className="flex items-center gap-[clamp(0.5rem,1.5vw,0.75rem)]">
+          <LanguageSwitcher ariaLabel={switcher.label} />
+
           <Link
-            href="/reserva"
+            href={`/${locale}/reserva`}
             onClick={close}
             className="inline-flex items-center justify-center rounded-full bg-primary px-[clamp(0.875rem,2.25vw,1.75rem)] py-[clamp(0.5rem,1.5dvh,0.75rem)] text-[clamp(0.8125rem,1.5vw,0.9375rem)] font-semibold text-primary-foreground shadow-sm transition-all hover:shadow-md active:scale-[0.95] active:opacity-90"
           >
-            Reservar
+            {nav.book}
           </Link>
 
           {/* Botón hamburguesa — solo móvil */}
@@ -115,11 +135,11 @@ export default function PublicNav() {
           ))}
           <li>
             <Link
-              href="/reserva"
+              href={`/${locale}/reserva`}
               onClick={close}
               className="mt-[clamp(0.25rem,1dvh,0.5rem)] block w-full rounded-xl bg-primary px-[clamp(0.75rem,2.5vw,1rem)] py-[clamp(0.75rem,2dvh,1rem)] text-center text-[clamp(1rem,2vw,1.125rem)] font-semibold text-primary-foreground shadow-sm transition-all active:scale-[0.98] active:opacity-90"
             >
-              Reservar cita
+              {nav.book}
             </Link>
           </li>
         </ul>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SERVICES } from "@/lib/data/services";
 import ReviewsCarousel from "@/components/ui/reviews-carousel";
 import StructuredData from "@/components/seo/structured-data";
+import { getDictionary, type Locale } from "@/lib/dictionaries";
 
 /* ─────────────────────────────────────────────
    DATOS DE PRESENTACIÓN (no replicados)
@@ -19,10 +20,18 @@ const SPECIALTIES = [
    PAGE — Server Component puro
    ───────────────────────────────────────────── */
 
-export default function HomePage() {
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: raw } = await params;
+  const locale: Locale = raw === "en" ? "en" : "es";
+  const dict = await getDictionary(locale);
+
   return (
     <>
-      <StructuredData />
+      <StructuredData locale={locale} />
 
       {/* ─────── HERO ─────── */}
       <section
@@ -43,18 +52,18 @@ export default function HomePage() {
             id="hero-title"
             className="max-w-[40ch] text-[clamp(1.75rem,5vw,3.5rem)] font-bold leading-[1.1] tracking-tight text-foreground hyphens-auto break-words"
           >
-            Cuidamos tus pies para que avances sin límites
+            {dict.hero.title}
           </h1>
 
           <p className="max-w-[55ch] text-[clamp(1rem,2vw,1.25rem)] leading-relaxed text-muted-foreground break-words">
-            Diagnóstico certero con análisis de la marcha informatizado y plataforma de presiones. Reserva tu cita online en menos de un minuto.
+            {dict.hero.subtitle}
           </p>
 
           <Link
-            href="/reserva"
+            href={`/${locale}/reserva`}
             className="mx-auto inline-flex w-full max-w-[24rem] items-center justify-center rounded-full bg-primary px-[clamp(1.5rem,4vw,2.5rem)] py-[clamp(1rem,2.75dvh,1.5rem)] text-[clamp(1rem,1.8vw,1.25rem)] font-semibold text-primary-foreground shadow-lg transition-all hover:shadow-xl active:scale-[0.97] active:opacity-90"
           >
-            Reservar cita
+            {dict.hero.cta}
           </Link>
         </div>
       </section>
@@ -71,10 +80,10 @@ export default function HomePage() {
               id="services-title"
               className="text-[clamp(1.75rem,4vw,3rem)] font-bold tracking-tight hyphens-auto break-words"
             >
-              Nuestros servicios
+              {dict.services.sectionTitle}
             </h2>
             <p className="text-[clamp(0.9375rem,1.7vw,1.125rem)] leading-relaxed text-muted-foreground break-words">
-              Precios transparentes. Sin sorpresas en consulta.
+              {dict.services.sectionSubtitle}
             </p>
           </header>
 
@@ -83,10 +92,10 @@ export default function HomePage() {
               <li key={service.id}>
                 <article className="flex h-full flex-col gap-[clamp(0.5rem,1.25dvh,0.75rem)] rounded-2xl border border-border bg-card p-[clamp(1.25rem,3vw,1.75rem)] transition-all hover:-translate-y-[0.25rem] hover:shadow-lg active:scale-[0.98]">
                   <h3 className="text-[clamp(1rem,1.8vw,1.25rem)] font-semibold tracking-tight break-words">
-                    {service.name}
+                    {service.name[locale]}
                   </h3>
                   <p className="text-[clamp(0.8125rem,1.4vw,0.9375rem)] leading-relaxed text-muted-foreground break-words">
-                    {service.description}
+                    {service.description[locale]}
                   </p>
                   <p
                     aria-label={`Precio: ${service.price}`}
@@ -161,13 +170,13 @@ export default function HomePage() {
         <div className="mx-auto flex w-full max-w-[72rem] flex-col gap-[clamp(1.5rem,4dvh,2.5rem)] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(3rem,8dvh,6rem)]">
           <header className="flex flex-col gap-[clamp(0.5rem,1.5dvh,0.75rem)] text-center">
             <span className="text-[clamp(0.75rem,1.3vw,0.875rem)] font-semibold uppercase tracking-wider text-primary">
-              Conoce a tu podólogo
+              {dict.aboutMe.kicker}
             </span>
             <h2
               id="about-me-title"
               className="text-[clamp(1.75rem,4vw,3rem)] font-bold tracking-tight hyphens-auto break-words"
             >
-              Sobre mí
+              {dict.aboutMe.title}
             </h2>
           </header>
 
@@ -176,7 +185,7 @@ export default function HomePage() {
             <figure className="mx-auto w-full max-w-[min(100%,25rem)]">
               <Image
                 src="/perfil.webp"
-                alt="Ángel Balboa - Gerente de Podología Balboa"
+                alt={dict.aboutMe.imageAlt}
                 width={500}
                 height={500}
                 className="aspect-square h-auto w-full rounded-2xl object-cover shadow-md"
@@ -186,10 +195,10 @@ export default function HomePage() {
             {/* Columna derecha · Texto biográfico */}
             <article className="flex flex-col gap-[clamp(0.875rem,2dvh,1.25rem)]">
               <p className="text-[clamp(0.9375rem,1.7vw,1.125rem)] leading-relaxed text-foreground break-words">
-                Mi nombre es Ángel, la dedicación a la salud siempre ha sido mi vocación, ha sido a raíz de la podología cuando he podido realizarme y ayudar a la gente en problemas mas concretos.
+                {dict.aboutMe.paragraph1}
               </p>
               <p className="text-[clamp(0.9375rem,1.7vw,1.125rem)] leading-relaxed text-muted-foreground break-words">
-                ¿Qué puedo hacer por usted? Ofrecerle los tratamientos propios de la podología, aplicando un amplio conocimiento en las ramas de la anatomía humana, fisiología, patofisiología, biomecánica del miembro inferior, radiología, farmacología, medicina general y cirugía.
+                {dict.aboutMe.paragraph2}
               </p>
             </article>
           </div>

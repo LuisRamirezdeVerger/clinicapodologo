@@ -1,0 +1,93 @@
+{
+  "nav": {
+    "services": "Services",
+    "clinic": "Clinic",
+    "aboutMe": "About me",
+    "contact": "Contact",
+    "book": "Book"
+  },
+  "hero": {
+    "title": "We care for your feet so you can keep moving forward",
+    "subtitle": "Accurate diagnosis with computerised gait analysis and pressure platform. Book your appointment online in under a minute.",
+    "cta": "Book an appointment"
+  },
+  "services": {
+    "sectionTitle": "Our services",
+    "sectionSubtitle": "Transparent prices. No surprises at the clinic."
+  },
+  "aboutMe": {
+    "kicker": "Meet your podiatrist",
+    "title": "About me",
+    "imageAlt": "Ángel Balboa - Director of Podología Balboa",
+    "paragraph1": "My name is Ángel. Dedication to health has always been my vocation, and it was through podiatry that I found my path to help patients with specific, everyday problems.",
+    "paragraph2": "What can I do for you? Provide the full range of podiatric treatments, drawing on a deep knowledge of human anatomy, physiology, pathophysiology, lower-limb biomechanics, radiology, pharmacology, general medicine and surgery."
+  },
+  "form": {
+    "pageTitle": "Request your appointment",
+    "pageSubtitle": "Choose a service and leave us your details. We'll get in touch to agree on a date and time.",
+    "stepService": "1. Select a service",
+    "stepData": "2. Your details",
+    "stepNotes": "3. Notes (optional)",
+    "labels": {
+      "fullName": "Full name",
+      "email": "Email",
+      "phone": "Phone",
+      "notes": "Reason for consultation, allergies or relevant medication"
+    },
+    "placeholders": {
+      "fullName": "Anna Smith",
+      "email": "anna@example.com",
+      "phone": "+44 7000 000 000",
+      "notes": "E.g. Type II diabetes, latex allergy…"
+    },
+    "hints": {
+      "notes": "This information helps the podiatrist prepare for your visit."
+    },
+    "consentBefore": "I have read and accept the ",
+    "consentLink": "privacy policy",
+    "consentAfter": " and the processing of my clinical data by the clinic.",
+    "submit": "Request appointment",
+    "submitting": "Sending…",
+    "validation": {
+      "missingFields": "Required fields are missing.",
+      "invalidService": "Invalid service.",
+      "generic": "We couldn't send your request. Please try again or call us directly."
+    },
+    "success": {
+      "title": "Request received!",
+      "body": "We've received your request for",
+      "bodySuffix": ". We'll be in touch shortly by phone or email to agree on a date and time.",
+      "rowPatient": "Patient",
+      "rowPhone": "Phone",
+      "rowEmail": "Email",
+      "rowPrice": "Estimated price",
+      "newRequest": "New request",
+      "goHome": "Back to home"
+    }
+  },
+  "footer": {
+    "tagline": "We care for your feet with advanced technology and a close, personal touch for over a decade.",
+    "nav": "Navigation",
+    "contact": "Contact",
+    "areas": "Service areas",
+    "andMore": "… and more",
+    "rights": "All rights reserved.",
+    "credits": "Crafted with care by"
+  },
+  "languageSwitcher": {
+    "label": "Change language",
+    "es": "Español",
+    "en": "English"
+  },
+  "legal": {
+    "notice": "Legal notice",
+    "privacy": "Privacy policy",
+    "cookies": "Cookie policy",
+    "banner": {
+      "message": "We use first- and third-party cookies to improve your experience and analyse traffic. Read more in our Cookie policy.",
+      "accept": "Accept",
+      "reject": "Reject",
+      "learnMore": "Learn more"
+    }
+  }
+}

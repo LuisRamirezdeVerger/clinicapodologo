@@ -1,19 +1,25 @@
-import { SERVICES } from "@/lib/data/services";
+import {
+  SERVICES,
+  pickServiceName,
+  pickServiceDescription,
+} from "@/lib/data/services";
+import type { Locale } from "@/lib/dictionaries";
 import { SITE } from "@/lib/site";
 
 /**
  * JSON-LD para Schema.org · tipo `Podiatrist` (subtipo de MedicalBusiness).
- * Permite a Google generar rich snippets en SERP (rating, mapa, teléfono).
- * Server Component sin estado: el script se inyecta de forma idempotente.
+ * Locale-aware: el catálogo de servicios se publica en el idioma servido
+ * para que Google indexe los rich snippets coherentes con la URL.
  */
-export default function StructuredData() {
+export default function StructuredData({ locale }: { locale: Locale }) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Podiatrist",
     "@id": `${SITE.url}/#business`,
     name: SITE.name,
     description: SITE.description,
-    url: SITE.url,
+    url: `${SITE.url}/${locale}`,
+    inLanguage: locale,
     image: `${SITE.url}${SITE.ogImage}`,
     logo: `${SITE.url}${SITE.ogImage}`,
     telephone: SITE.phone,
@@ -55,18 +61,21 @@ export default function StructuredData() {
     medicalSpecialty: "Podiatry",
     availableService: SERVICES.map((s) => ({
       "@type": "MedicalProcedure",
-      name: s.name,
-      description: s.description,
+      name: pickServiceName(s, locale),
+      description: pickServiceDescription(s, locale),
     })),
     hasOfferCatalog: {
       "@type": "OfferCatalog",
-      name: "Catálogo de servicios podológicos",
+      name:
+        locale === "en"
+          ? "Podiatry services catalogue"
+          : "Catálogo de servicios podológicos",
       itemListElement: SERVICES.map((s) => ({
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
-          name: s.name,
-          description: s.description,
+          name: pickServiceName(s, locale),
+          description: pickServiceDescription(s, locale),
         },
         price: extractMinPriceEur(s.price),
         priceCurrency: "EUR",
@@ -82,17 +91,11 @@ export default function StructuredData() {
   return (
     <script
       type="application/ld+json"
-      // El JSON-LD debe inyectarse como texto crudo dentro del <script>.
-      // dangerouslySetInnerHTML es el patrón canónico recomendado por Next.
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
   );
 }
 
-/**
- * Extrae el primer número de un string de precio ("30 €", "25 - 60 €" → 30).
- * Schema.org `Offer.price` espera un número o string sin símbolos.
- */
 function extractMinPriceEur(price: string): string {
   const match = price.match(/\d+(?:[.,]\d+)?/);
   return match ? match[0].replace(",", ".") : "0";

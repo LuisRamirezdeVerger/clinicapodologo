@@ -2,27 +2,39 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import PublicNav from "@/components/ui/public-nav";
 import ScrollToTop from "@/components/ui/scroll-to-top";
+import CookieBanner from "@/components/ui/cookie-banner";
 import { SITE } from "@/lib/site";
-
-const FOOTER_LINKS = [
-  { href: "/#servicios", label: "Servicios" },
-  { href: "/#equipo", label: "Clínica" },
-  { href: "/#sobre-mi", label: "Sobre mí" },
-  { href: "/#contacto", label: "Contacto" },
-] as const;
+import { getDictionary, type Locale } from "@/lib/dictionaries";
 
 // E.164 puro para hrefs (tel:/mailto): quita espacios del teléfono.
 const PHONE_E164 = SITE.phone.replace(/\s+/g, "");
 
-export default function PublicLayout({ children }: { children: ReactNode }) {
+export default async function PublicLayout({
+  children,
+  params,
+}: {
+  children: ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: raw } = await params;
+  const locale: Locale = raw === "en" ? "en" : "es";
+  const dict = await getDictionary(locale);
+
+  const FOOTER_LINKS = [
+    { href: `/${locale}#servicios`, label: dict.nav.services },
+    { href: `/${locale}#equipo`, label: dict.nav.clinic },
+    { href: `/${locale}#sobre-mi`, label: dict.nav.aboutMe },
+    { href: `/${locale}#contacto`, label: dict.nav.contact },
+  ];
+
   return (
     <div className="flex min-h-[100dvh] w-full max-w-[100vw] flex-col overflow-x-hidden bg-background text-foreground">
-      {/* ─────────── HEADER ───────────
-          El posicionamiento (fixed) y los estilos visuales viven dentro de
-          <PublicNav />. El <header> aquí es puramente semántico (landmark
-          para lectores de pantalla y SEO), sin clases de layout. */}
       <header>
-        <PublicNav />
+        <PublicNav
+          locale={locale}
+          nav={dict.nav}
+          switcher={dict.languageSwitcher}
+        />
       </header>
 
       {/* ─────────── MAIN ───────────
@@ -43,7 +55,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
               {SITE.name}
             </h2>
             <p className="mt-[clamp(0.5rem,1.5dvh,0.75rem)] text-[clamp(0.8125rem,1.4vw,0.9375rem)] leading-relaxed text-muted-foreground break-words">
-              Cuidamos la salud de tus pies con tecnología avanzada y trato cercano desde hace más de una década.
+              {dict.footer.tagline}
             </p>
           </section>
 
@@ -52,7 +64,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
               id="footer-nav"
               className="text-[clamp(0.875rem,1.5vw,1rem)] font-semibold uppercase tracking-wider"
             >
-              Navegación
+              {dict.footer.nav}
             </h2>
             <ul className="mt-[clamp(0.75rem,2dvh,1rem)] flex flex-col gap-[clamp(0.375rem,1dvh,0.5rem)]">
               {FOOTER_LINKS.map((link) => (
@@ -73,7 +85,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
               id="footer-contact"
               className="text-[clamp(0.875rem,1.5vw,1rem)] font-semibold uppercase tracking-wider"
             >
-              Contacto
+              {dict.footer.contact}
             </h2>
             <address className="mt-[clamp(0.75rem,2dvh,1rem)] flex flex-col gap-[clamp(0.375rem,1dvh,0.5rem)] text-[clamp(0.8125rem,1.4vw,0.9375rem)] not-italic text-muted-foreground">
               <span className="break-words">
@@ -100,7 +112,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
               id="footer-areas"
               className="text-[clamp(0.875rem,1.5vw,1rem)] font-semibold uppercase tracking-wider"
             >
-              Zonas de servicio
+              {dict.footer.areas}
             </h2>
             <ul className="mt-[clamp(0.75rem,2dvh,1rem)] flex flex-wrap items-center gap-[clamp(0.25rem,0.75vw,0.375rem)] text-[clamp(0.75rem,1.3vw,0.8125rem)]">
               {SITE.serviceAreas.slice(0, 5).map((area) => (
@@ -111,14 +123,14 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
                   {area}
                 </li>
               ))}
-              <li className="text-muted-foreground/70 italic">… y más</li>
+              <li className="text-muted-foreground/70 italic">{dict.footer.andMore}</li>
             </ul>
           </section>
         </div>
 
         <div className="border-t border-border/40">
           <p className="mx-auto w-full max-w-[80rem] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(1rem,2.5dvh,1.5rem)] text-center text-[clamp(0.75rem,1.3vw,0.875rem)] text-muted-foreground">
-            © {new Date().getFullYear()} {SITE.name}. Todos los derechos reservados.
+            © {new Date().getFullYear()} {SITE.name}. {dict.footer.rights}
           </p>
         </div>
       </footer>
@@ -129,7 +141,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
         className="w-full border-t border-border/40 bg-background"
       >
         <p className="mx-auto w-full max-w-[80rem] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(0.625rem,1.5dvh,1rem)] text-center text-[clamp(0.6875rem,1.2vw,0.8125rem)] text-muted-foreground">
-          Hecho con cariño por{" "}
+          {dict.footer.credits}{" "}
           <a
             href="https://lacasadelosinventos.com"
             target="_blank"
@@ -141,8 +153,50 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
         </p>
       </aside>
 
+      {/* ─────────── FILA LEGAL ─────────── */}
+      <nav
+        aria-label="Enlaces legales"
+        className="w-full border-t border-border/40 bg-background"
+      >
+        <ul className="mx-auto flex w-full max-w-[80rem] flex-wrap items-center justify-center gap-[clamp(0.75rem,2.5vw,1.5rem)] px-[clamp(1rem,5vw,2.5rem)] py-[clamp(0.625rem,1.5dvh,1rem)] text-[clamp(0.6875rem,1.2vw,0.8125rem)]">
+          <li>
+            <Link
+              href={`/${locale}/legal/aviso-legal`}
+              className="text-muted-foreground transition-colors hover:text-foreground active:opacity-70"
+            >
+              {dict.legal.notice}
+            </Link>
+          </li>
+          <li>
+            <Link
+              href={`/${locale}/legal/privacidad`}
+              className="text-muted-foreground transition-colors hover:text-foreground active:opacity-70"
+            >
+              {dict.legal.privacy}
+            </Link>
+          </li>
+          <li>
+            <Link
+              href={`/${locale}/legal/cookies`}
+              className="text-muted-foreground transition-colors hover:text-foreground active:opacity-70"
+            >
+              {dict.legal.cookies}
+            </Link>
+          </li>
+        </ul>
+      </nav>
+
       {/* ─────────── FAB · SCROLL TO TOP ─────────── */}
       <ScrollToTop />
+
+      {/* ─────────── BANNER DE COOKIES ─────────── */}
+      <CookieBanner
+        locale={locale}
+        message={dict.legal.banner.message}
+        accept={dict.legal.banner.accept}
+        reject={dict.legal.banner.reject}
+        learnMore={dict.legal.banner.learnMore}
+      />
     </div>
   );
 }
