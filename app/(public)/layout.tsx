@@ -6,8 +6,8 @@ import { SITE } from "@/lib/site";
 
 const FOOTER_LINKS = [
   { href: "/#servicios", label: "Servicios" },
-  { href: "/#equipo", label: "Equipo" },
-  { href: "/#instalaciones", label: "Instalaciones" },
+  { href: "/#equipo", label: "Clínica" },
+  { href: "/#sobre-mi", label: "Sobre mí" },
   { href: "/#contacto", label: "Contacto" },
 ] as const;
 

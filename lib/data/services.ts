@@ -45,10 +45,10 @@ export const SERVICES: readonly Service[] = [
   },
   {
     id: "ortonixia",
-    name: "Ortonixia",
+    name: "Prótesis de silicona",
     price: "25 - 60 €",
     description:
-      "Reeducación de la lámina ungueal con brackets o filamentos. Precio según tamaño y técnica empleada.",
+      "Elaboración de órtesis de silicona a medida para corregir deformidades en los dedos, aliviar presiones, roces y prevenir la aparición de callosidades.",
   },
   {
     id: "vendaje",

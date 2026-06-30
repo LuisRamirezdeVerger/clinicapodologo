@@ -50,20 +50,12 @@ export default function HomePage() {
             Diagnóstico certero con análisis de la marcha informatizado y plataforma de presiones. Reserva tu cita online en menos de un minuto.
           </p>
 
-          <div className="flex w-full flex-wrap items-center justify-center gap-[clamp(0.75rem,2vw,1rem)]">
-            <Link
-              href="/reserva"
-              className="inline-flex items-center justify-center rounded-full bg-primary px-[clamp(1.25rem,3vw,2rem)] py-[clamp(0.75rem,2dvh,1rem)] text-[clamp(0.875rem,1.6vw,1rem)] font-semibold text-primary-foreground shadow-md transition-all hover:shadow-lg active:scale-[0.97] active:opacity-90"
-            >
-              Reservar cita
-            </Link>
-            <Link
-              href="#servicios"
-              className="inline-flex items-center justify-center rounded-full border border-border bg-background px-[clamp(1.25rem,3vw,2rem)] py-[clamp(0.75rem,2dvh,1rem)] text-[clamp(0.875rem,1.6vw,1rem)] font-semibold transition-colors hover:bg-muted active:scale-[0.97] active:opacity-80"
-            >
-              Ver servicios
-            </Link>
-          </div>
+          <Link
+            href="/reserva"
+            className="mx-auto inline-flex w-full max-w-[24rem] items-center justify-center rounded-full bg-primary px-[clamp(1.5rem,4vw,2.5rem)] py-[clamp(1rem,2.75dvh,1.5rem)] text-[clamp(1rem,1.8vw,1.25rem)] font-semibold text-primary-foreground shadow-lg transition-all hover:shadow-xl active:scale-[0.97] active:opacity-90"
+          >
+            Reservar cita
+          </Link>
         </div>
       </section>
 
