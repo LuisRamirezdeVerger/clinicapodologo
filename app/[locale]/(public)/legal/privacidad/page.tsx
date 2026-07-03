@@ -25,7 +25,7 @@ export default async function PrivacyPage({
         title={isEn ? "Data controller" : "Responsable del tratamiento"}
       >
         <p>
-          <strong>{SITE.name}</strong> — [Insertar Nombre/Razón Social] — [Insertar NIF/CIF].
+          <strong>{SITE.name}</strong> — Ángel Balboa Carmona — 30264306D
         </p>
         <p>
           {isEn ? "Address" : "Domicilio"}: {SITE.address.street},{" "}
